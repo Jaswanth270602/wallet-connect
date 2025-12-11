@@ -923,3 +923,58 @@
 #38 C:\\Users\\dell\\Desktop\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\dell\\\\D...')
 #39 {main}
 "} 
+[2025-12-11 05:11:31] laravel.EMERGENCY: Unable to create configured logger. Using emergency logger. {"exception":"[object] (InvalidArgumentException(code: 0): Log [] is not defined. at C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php:212)
+[stacktrace]
+#0 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(137): Illuminate\\Log\\LogManager->resolve(NULL, NULL)
+#1 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(124): Illuminate\\Log\\LogManager->get(NULL)
+#2 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Log\\LogManager.php(681): Illuminate\\Log\\LogManager->driver()
+#3 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(317): Illuminate\\Log\\LogManager->error('Target class [c...', Array)
+#4 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(278): Illuminate\\Foundation\\Exceptions\\Handler->reportThrowable(Object(Illuminate\\Contracts\\Container\\BindingResolutionException))
+#5 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(523): Illuminate\\Foundation\\Exceptions\\Handler->report(Object(Illuminate\\Contracts\\Container\\BindingResolutionException))
+#6 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(203): Illuminate\\Foundation\\Console\\Kernel->reportException(Object(Illuminate\\Contracts\\Container\\BindingResolutionException))
+#7 C:\\agdp_projects\\wallet-connect\\artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 {main}
+"} 
+[2025-12-11 05:11:31] laravel.ERROR: Target class [cache] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [cache] does not exist. at C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:914)
+[stacktrace]
+#0 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build('cache')
+#1 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('cache', Array, true)
+#2 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(731): Illuminate\\Foundation\\Application->resolve('cache', Array)
+#3 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(971): Illuminate\\Container\\Container->make('cache', Array)
+#4 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(1454): Illuminate\\Foundation\\Application->make('cache')
+#5 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Providers\\ArtisanServiceProvider.php(273): Illuminate\\Container\\Container->offsetGet('cache')
+#6 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(908): Illuminate\\Foundation\\Providers\\ArtisanServiceProvider->Illuminate\\Foundation\\Providers\\{closure}(Object(Illuminate\\Foundation\\Application), Array)
+#7 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build(Object(Closure))
+#8 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('Illuminate\\\\Cach...', Array, true)
+#9 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(742): Illuminate\\Foundation\\Application->resolve('Illuminate\\\\Cach...')
+#10 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\ContainerCommandLoader.php(53): Illuminate\\Container\\Container->get('Illuminate\\\\Cach...')
+#11 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(626): Illuminate\\Console\\ContainerCommandLoader->get('cache:clear')
+#12 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(713): Symfony\\Component\\Console\\Application->has('cache:clear')
+#13 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('cache:clear')
+#14 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#15 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#16 C:\\agdp_projects\\wallet-connect\\artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#17 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"cache\" does not exist at C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:912)
+[stacktrace]
+#0 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(912): ReflectionClass->__construct('cache')
+#1 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build('cache')
+#2 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('cache', Array, true)
+#3 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(731): Illuminate\\Foundation\\Application->resolve('cache', Array)
+#4 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(971): Illuminate\\Container\\Container->make('cache', Array)
+#5 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(1454): Illuminate\\Foundation\\Application->make('cache')
+#6 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Providers\\ArtisanServiceProvider.php(273): Illuminate\\Container\\Container->offsetGet('cache')
+#7 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(908): Illuminate\\Foundation\\Providers\\ArtisanServiceProvider->Illuminate\\Foundation\\Providers\\{closure}(Object(Illuminate\\Foundation\\Application), Array)
+#8 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(795): Illuminate\\Container\\Container->build(Object(Closure))
+#9 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(986): Illuminate\\Container\\Container->resolve('Illuminate\\\\Cach...', Array, true)
+#10 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(742): Illuminate\\Foundation\\Application->resolve('Illuminate\\\\Cach...')
+#11 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\ContainerCommandLoader.php(53): Illuminate\\Container\\Container->get('Illuminate\\\\Cach...')
+#12 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(626): Illuminate\\Console\\ContainerCommandLoader->get('cache:clear')
+#13 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(713): Symfony\\Component\\Console\\Application->has('cache:clear')
+#14 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('cache:clear')
+#15 C:\\agdp_projects\\wallet-connect\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#16 C:\\agdp_projects\\wallet-connect\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#17 C:\\agdp_projects\\wallet-connect\\artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#18 {main}
+"} 

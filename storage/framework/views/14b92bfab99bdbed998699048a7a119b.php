@@ -194,7 +194,7 @@
             }
             
             // Get project ID from environment (passed via Blade)
-            const projectId = '{{ $walletconnectProjectId ?? "" }}';
+            const projectId = '<?php echo e($walletconnectProjectId ?? ""); ?>';
             
             // Validate project ID
             if (!projectId || projectId.trim() === '') {
@@ -775,7 +775,7 @@
             }
             
             // Validate project ID before opening modal
-            const projectId = '{{ $walletconnectProjectId ?? "" }}';
+            const projectId = '<?php echo e($walletconnectProjectId ?? ""); ?>';
             if (!projectId || projectId.trim() === '') {
                 const errorMsg = 'WalletConnect Project ID is missing. Please set WALLETCONNECT_PROJECT_ID in your .env file.';
                 console.error(errorMsg);
@@ -1221,3 +1221,4 @@
     })();
 </script>
 
+<?php /**PATH C:\agdp_projects\wallet-connect\resources\views/js/walletconnect.blade.php ENDPATH**/ ?>

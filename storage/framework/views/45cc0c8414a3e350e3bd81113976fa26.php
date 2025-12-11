@@ -10,7 +10,17 @@
                         <h1>Verify your wallet with SecureConnect</h1>
                         <p>Experience the future of secure and seamless wallet verification. Say goodbye to unreliable addresses and hello to peace of mind.</p>
                         <div>
-                            <button id="connect-wallet-btn" class="btn btn-primary btn-lg me-3">
+                            <button id="connect-wallet-btn" class="btn btn-primary btn-lg me-3" 
+                                onclick="
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    if(window.connectWallet) {
+                                        window.connectWallet(event);
+                                    } else if(window._handleConnectWallet) {
+                                        window._handleConnectWallet(event);
+                                    }
+                                    return false;
+                                ">
                                 Verify Wallet
                             </button>
                             <a href="#how-it-works" class="btn btn-outline-light btn-lg">Learn More</a>
@@ -46,7 +56,18 @@
                             <div class="tab-pane fade show active" id="connect" role="tabpanel">
                                 <div id="connection-section">
                                     <p class="mb-4">Connect your wallet to verify and secure your transactions.</p>
-                                    <button id="connect-wallet-btn-tab" class="btn btn-primary w-100 btn-lg">
+                                    
+                                    <button id="connect-wallet-btn-tab" class="btn btn-primary w-100 btn-lg" 
+                                        onclick="
+                                            event.stopPropagation();
+                                            event.preventDefault();
+                                            if(window.connectWallet) {
+                                                window.connectWallet(event);
+                                            } else if(window._handleConnectWallet) {
+                                                window._handleConnectWallet(event);
+                                            }
+                                            return false;
+                                        ">
                                         Verify Wallet
                                     </button>
                                 </div>
@@ -281,19 +302,143 @@
 <?php $__env->startSection('scripts'); ?>
     <?php echo $__env->make('js.walletconnect', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script>
-        // Smooth scroll for navbar links
+        // Smooth scroll for navbar links - BUT DON'T BLOCK OTHER CLICKS
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Only prevent default for anchor links, not buttons
+                if (this.tagName === 'A' && this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
             });
         });
         
-        // Update status tab on page load if wallet is already connected
-        document.addEventListener('DOMContentLoaded', function() {
+        // CRITICAL: Make buttons clickable - run immediately
+        (function() {
+            // Test if ANY clicks work on the page
+            document.addEventListener('click', function(e) {
+                console.log('=== PAGE CLICK DETECTED ===', e.target, e.target.id, e.target.className, e.target.tagName);
+            }, true);
+            
+            // Also test mousedown
+            document.addEventListener('mousedown', function(e) {
+                console.log('=== MOUSEDOWN DETECTED ===', e.target, e.target.id);
+            }, true);
+            
+            function forceEnableButtons() {
+                const btn1 = document.getElementById('connect-wallet-btn');
+                const btn2 = document.getElementById('connect-wallet-btn-tab');
+                
+                [btn1, btn2].forEach(btn => {
+                    if (btn) {
+                        console.log('=== ENABLING BUTTON ===', btn.id);
+                        btn.disabled = false;
+                        btn.removeAttribute('disabled');
+                        btn.setAttribute('tabindex', '0');
+                        btn.setAttribute('role', 'button');
+                        btn.setAttribute('aria-disabled', 'false');
+                        
+                        // Force styles
+                        btn.style.setProperty('pointer-events', 'auto', 'important');
+                        btn.style.setProperty('cursor', 'pointer', 'important');
+                        btn.style.setProperty('z-index', '99999', 'important');
+                        btn.style.setProperty('position', 'relative', 'important');
+                        btn.style.setProperty('opacity', '1', 'important');
+                        btn.style.setProperty('visibility', 'visible', 'important');
+                        btn.style.setProperty('display', 'inline-block', 'important');
+                        
+                        // Check for overlays
+                        const rect = btn.getBoundingClientRect();
+                        const centerX = rect.left + rect.width/2;
+                        const centerY = rect.top + rect.height/2;
+                        const elementAtPoint = document.elementFromPoint(centerX, centerY);
+                        
+                        console.log('Button', btn.id, 'bounds:', rect);
+                        console.log('Button', btn.id, 'center:', centerX, centerY);
+                        console.log('Element at button center:', elementAtPoint, elementAtPoint?.tagName, elementAtPoint?.className);
+                        
+                        if (elementAtPoint !== btn && !btn.contains(elementAtPoint)) {
+                            console.error('⚠️⚠️⚠️ BUTTON IS COVERED BY:', elementAtPoint);
+                            console.error('Covering element tag:', elementAtPoint?.tagName);
+                            console.error('Covering element class:', elementAtPoint?.className);
+                            console.error('Covering element id:', elementAtPoint?.id);
+                            console.error('Covering element z-index:', window.getComputedStyle(elementAtPoint).zIndex);
+                            
+                            // Try to fix it
+                            if (elementAtPoint && elementAtPoint.style) {
+                                elementAtPoint.style.setProperty('pointer-events', 'none', 'important');
+                                console.log('Set pointer-events: none on covering element');
+                            }
+                        } else {
+                            console.log('✓ Button is NOT covered');
+                        }
+                        
+                        // Add direct event listeners
+                        btn.addEventListener('mouseenter', function() {
+                            console.log('✓✓✓ Mouse ENTERED button:', btn.id);
+                        }, true);
+                        
+                        btn.addEventListener('mousedown', function(e) {
+                            console.log('*** MOUSEDOWN ON BUTTON ***', btn.id, e);
+                            e.stopPropagation();
+                        }, true);
+                        
+                        btn.addEventListener('click', function(e) {
+                            console.log('*** CLICK EVENT ON BUTTON ***', btn.id, e);
+                            e.stopPropagation();
+                        }, true);
+                        
+                        // Test if button is actually in viewport
+                        const isVisible = rect.top >= 0 && rect.left >= 0 && 
+                                        rect.bottom <= window.innerHeight && 
+                                        rect.right <= window.innerWidth;
+                        console.log('Button visible in viewport:', isVisible);
+                        
+                        // Final check
+                        const computed = window.getComputedStyle(btn);
+                        console.log('Final button state:', {
+                            disabled: btn.disabled,
+                            pointerEvents: computed.pointerEvents,
+                            cursor: computed.cursor,
+                            zIndex: computed.zIndex,
+                            display: computed.display,
+                            visibility: computed.visibility,
+                            opacity: computed.opacity,
+                            hasOnclick: !!btn.getAttribute('onclick')
+                        });
+                    } else {
+                        console.error('Button not found!');
+                    }
+                });
+            }
+            
+            // Run immediately
+            forceEnableButtons();
+            
+            // Run on DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    console.log('DOM Content Loaded - enabling buttons');
+                    forceEnableButtons();
+                });
+            } else {
+                console.log('DOM already loaded - enabling buttons');
+                forceEnableButtons();
+            }
+            
+            // Run multiple times to catch any late changes
+            [100, 500, 1000, 2000, 3000].forEach(delay => {
+                setTimeout(() => {
+                    console.log('Re-enabling buttons after', delay, 'ms');
+                    forceEnableButtons();
+                }, delay);
+            });
+        })();
+            
+            // Update status tab on page load if wallet is already connected
             setTimeout(() => {
                 const address = document.getElementById('wallet-address')?.textContent;
                 if (address && address !== '-') {
@@ -314,4 +459,4 @@
     </script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\dell\Desktop\wallet-connect\resources\views/home.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\agdp_projects\wallet-connect\resources\views/home.blade.php ENDPATH**/ ?>

@@ -107,10 +107,30 @@
                 if (!button) return;
                 
                 if (isLoading) {
+                    // Store original text if not already stored
+                    if (!button.dataset.originalText) {
+                        button.dataset.originalText = button.innerHTML;
+                    }
                     button.disabled = true;
                     button.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Loading...';
                 } else {
                     button.disabled = false;
+                    // Restore original text if available
+                    if (button.dataset.originalText) {
+                        button.innerHTML = button.dataset.originalText;
+                        delete button.dataset.originalText;
+                    } else {
+                        // Fallback text based on button ID
+                        if (buttonId.includes('connect')) {
+                            button.innerHTML = 'Verify Wallet';
+                        } else if (buttonId.includes('disconnect')) {
+                            button.innerHTML = 'Disconnect';
+                        } else if (buttonId.includes('transaction') || buttonId.includes('send')) {
+                            button.innerHTML = 'Send Transaction';
+                        }
+                    }
+                    // Force reflow to ensure button updates
+                    button.offsetHeight;
                 }
             }
         };
