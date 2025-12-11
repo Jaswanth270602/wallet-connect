@@ -6,115 +6,6 @@
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <title>SecureConnect - Wallet Verification Made Easy</title>
     
-    <!-- CRITICAL: Force close any modal on page load - it's blocking everything -->
-    <script>
-        (function() {
-            console.log('=== FORCE CLOSING ANY OPEN MODAL ===');
-            
-            // IMMEDIATELY remove any modal that's blocking clicks
-            function forceCloseModal() {
-                const modal = document.querySelector('w3m-modal');
-                if (modal) {
-                    console.log('⚠️ FORCE REMOVING blocking modal...');
-                    // Hide it completely
-                    modal.style.display = 'none';
-                    modal.style.visibility = 'hidden';
-                    modal.style.opacity = '0';
-                    modal.style.pointerEvents = 'none';
-                    modal.style.zIndex = '-9999';
-                    // Remove from DOM
-                    modal.remove();
-                    console.log('✓ Modal removed - buttons should be clickable now');
-                }
-            }
-            
-            // Run immediately
-            forceCloseModal();
-            
-            // Run after DOM loads
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', function() {
-                    forceCloseModal();
-                    setTimeout(forceCloseModal, 500);
-                });
-            } else {
-                forceCloseModal();
-                setTimeout(forceCloseModal, 500);
-            }
-            
-            // Watch for new modals and only allow them if user clicked button
-            let userWantsModal = false;
-            let lastUserClickTime = 0;
-            
-            window._userWantsModal = function(value) {
-                userWantsModal = value;
-                if (value) {
-                    lastUserClickTime = Date.now();
-                    console.log('✓ User wants modal open - allowing it');
-                }
-            };
-            
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeName === 'W3M-MODAL' || (node.querySelector && node.querySelector('w3m-modal'))) {
-                            // Check if user clicked within last 10 seconds (increased window)
-                            const timeSinceClick = Date.now() - lastUserClickTime;
-                            if (userWantsModal || timeSinceClick < 10000) {
-                                console.log('✓ Modal opened by user - KEEPING IT OPEN');
-                                // Ensure it's visible and not removed
-                                setTimeout(() => {
-                                    const modal = document.querySelector('w3m-modal');
-                                    if (modal) {
-                                        modal.style.display = '';
-                                        modal.style.visibility = '';
-                                        modal.style.opacity = '';
-                                        modal.style.pointerEvents = '';
-                                        modal.style.zIndex = '';
-                                        console.log('✓ Modal visibility ensured');
-                                    }
-                                }, 200);
-                            } else {
-                                console.log('⚠️ Modal appeared without user click - removing');
-                                setTimeout(forceCloseModal, 100);
-                            }
-                        }
-                    });
-                });
-            });
-            
-            if (document.body) {
-                observer.observe(document.body, { childList: true, subtree: true });
-            } else {
-                document.addEventListener('DOMContentLoaded', function() {
-                    observer.observe(document.body, { childList: true, subtree: true });
-                });
-            }
-            
-            // Track button clicks (no alerts - just logging)
-            document.addEventListener('click', function(e) {
-                if (e.target && e.target.id && e.target.id.includes('connect-wallet')) {
-                    console.log('✓ User clicked Verify Wallet button');
-                    if (window._userWantsModal) {
-                        window._userWantsModal(true);
-                    }
-                }
-            }, true);
-            
-            // Check body pointer-events
-            setTimeout(function() {
-                const body = document.body;
-                if (body) {
-                    const style = window.getComputedStyle(body);
-                    console.log('Body pointer-events:', style.pointerEvents);
-                    if (style.pointerEvents === 'none') {
-                        console.error('⚠️ BODY HAS pointer-events: none!');
-                        body.style.setProperty('pointer-events', 'auto', 'important');
-                    }
-                }
-            }, 100);
-        })();
-    </script>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -149,60 +40,6 @@
             pointer-events: auto !important;
         }
         
-        /* CRITICAL: Ensure buttons are always clickable */
-        #connect-wallet-btn,
-        #connect-wallet-btn-tab {
-            pointer-events: auto !important;
-            cursor: pointer !important;
-            z-index: 99999 !important;
-            position: relative !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-        }
-        
-        /* Ensure Web3Modal doesn't block page interactions */
-        body.modal-open {
-            overflow: hidden;
-        }
-        
-        /* Allow scrolling on modal container - but don't block buttons */
-        w3m-modal {
-            pointer-events: auto;
-        }
-        
-        /* CRITICAL: Ensure buttons are always above modal */
-        #connect-wallet-btn,
-        #connect-wallet-btn-tab,
-        #test-click-btn,
-        #test-click-tab-btn {
-            z-index: 999999 !important;
-            position: relative !important;
-            pointer-events: auto !important;
-        }
-        
-        /* If modal overlay exists, don't let it block buttons */
-        w3m-modal::part(overlay),
-        w3m-modal > * {
-            pointer-events: none;
-        }
-        
-        w3m-modal > w3m-container,
-        w3m-modal > div {
-            pointer-events: auto;
-        }
-        
-        /* Make sure nothing overlays the buttons */
-        .hero-section,
-        .verification-card {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-section button,
-        .verification-card button {
-            position: relative;
-            z-index: 1000 !important;
-        }
         
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
@@ -325,25 +162,7 @@
             letter-spacing: 0.5px;
             position: relative;
             overflow: hidden;
-            /* Ensure buttons are always clickable */
-            pointer-events: auto !important;
             cursor: pointer !important;
-            z-index: 10;
-        }
-        
-        /* Ensure connect wallet buttons are always clickable */
-        #connect-wallet-btn,
-        #connect-wallet-btn-tab {
-            pointer-events: auto !important;
-            cursor: pointer !important;
-            z-index: 1000 !important;
-            position: relative !important;
-        }
-        
-        #connect-wallet-btn:disabled,
-        #connect-wallet-btn-tab:disabled {
-            pointer-events: none;
-            opacity: 0.6;
         }
         
         .btn-primary::before {
@@ -650,9 +469,6 @@
         </div>
     </nav>
     
-    <!-- Web3Modal Component - Required for modal to render -->
-    <w3m-modal></w3m-modal>
-    
     <?php echo $__env->yieldContent('content'); ?>
     
     <!-- Toast Container -->
@@ -673,58 +489,6 @@
         </div>
     </footer>
     
-    <!-- CRITICAL: Test clicks BEFORE anything else loads -->
-    <script>
-        console.log('=== EARLY CLICK TEST SCRIPT ===');
-        
-        // Test if clicks work at all - run immediately
-        document.addEventListener('click', function(e) {
-            console.log('EARLY CLICK DETECTED:', e.target, e.target.tagName, e.target.id);
-            // Don't prevent default - let clicks work
-        }, true);
-        
-        // Check for overlays blocking clicks
-        function checkForOverlays() {
-            const allElements = document.querySelectorAll('*');
-            const overlays = [];
-            allElements.forEach(el => {
-                const style = window.getComputedStyle(el);
-                if (style.position === 'fixed' || style.position === 'absolute') {
-                    const zIndex = parseInt(style.zIndex) || 0;
-                    if (zIndex > 1000) {
-                        const rect = el.getBoundingClientRect();
-                        if (rect.width > window.innerWidth * 0.5 && rect.height > window.innerHeight * 0.5) {
-                            overlays.push({
-                                element: el,
-                                zIndex: zIndex,
-                                tag: el.tagName,
-                                id: el.id,
-                                class: el.className,
-                                pointerEvents: style.pointerEvents
-                            });
-                        }
-                    }
-                }
-            });
-            if (overlays.length > 0) {
-                console.warn('⚠️ POTENTIAL OVERLAYS FOUND:', overlays);
-                overlays.forEach(overlay => {
-                    if (overlay.pointerEvents !== 'none') {
-                        console.warn('Overlay might be blocking clicks:', overlay);
-                        overlay.element.style.pointerEvents = 'none';
-                    }
-                });
-            }
-        }
-        
-        // Run check immediately and after DOM loads
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkForOverlays);
-        } else {
-            checkForOverlays();
-        }
-        setTimeout(checkForOverlays, 1000);
-    </script>
     
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -734,4 +498,4 @@
     <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 </html>
-<?php /**PATH C:\agdp_projects\wallet-connect\resources\views/layout.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\dell\Desktop\wallet-connect\resources\views/layout.blade.php ENDPATH**/ ?>

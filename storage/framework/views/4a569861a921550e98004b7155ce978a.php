@@ -137,4 +137,4 @@
     })();
 </script>
 
-<?php /**PATH C:\agdp_projects\wallet-connect\resources\views/js/app.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\dell\Desktop\wallet-connect\resources\views/js/app.blade.php ENDPATH**/ ?>

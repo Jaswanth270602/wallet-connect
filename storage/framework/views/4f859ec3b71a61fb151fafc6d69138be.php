@@ -13,7 +13,7 @@
     const { createPublicClient } = viemLib;
     
     // Get project ID from environment (passed via Blade)
-    const projectId = '{{ $walletconnectProjectId ?? "" }}';
+    const projectId = '<?php echo e($walletconnectProjectId ?? ""); ?>';
     
     if (!projectId || projectId.trim() === '') {
         console.error('WALLETCONNECT_PROJECT_ID is not set in .env file');
@@ -439,3 +439,4 @@
         console.log('WalletConnect initialized successfully');
     });
 </script>
+<?php /**PATH C:\Users\dell\Desktop\wallet-connect\resources\views/js/walletconnect.blade.php ENDPATH**/ ?>

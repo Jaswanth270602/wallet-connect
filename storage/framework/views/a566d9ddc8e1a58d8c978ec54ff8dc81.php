@@ -1,6 +1,6 @@
-@extends('layout')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <!-- Hero Section -->
 <section id="home" class="hero-section">
     <div class="container">
@@ -295,10 +295,10 @@
         </div>
     </div>
 </section>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
-@include('js.walletconnect')
+<?php $__env->startSection('scripts'); ?>
+<?php echo $__env->make('js.walletconnect', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <script>
     // Smooth scroll for navbar links - BUT DON'T BLOCK OTHER CLICKS
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -335,4 +335,5 @@
         }
     }, 1000);
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\dell\Desktop\wallet-connect\resources\views/home.blade.php ENDPATH**/ ?>
